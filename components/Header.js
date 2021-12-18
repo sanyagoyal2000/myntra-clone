@@ -1,10 +1,27 @@
 import Image from 'next/image'
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import React, {useState,useEffect } from 'react';
+
 function Header() {
+    const [handleShow, setHandleShow] = useState(false);
+    useEffect(() => {
+        const listener = () => {
+           if (window.scrollY > 80) {
+             setHandleShow(true); 
+             } else 
+             setHandleShow(false); 
+           }; 
+           window.addEventListener("scroll", listener);
+           
+           return () => { 
+             window.removeEventListener("scroll", listener); 
+           }; 
+         }, []);
     return (
-        <header className="fixed top-0 z-20 bg-white w-screen grid grid-flow-col transition duration-100 ease-out  p-5 md:px-5 shadow-sm border-1 "> 
+        
+        <header className={`fixed top-0 z-20 bg-white w-screen grid grid-flow-col transition duration-100 ease-out ${handleShow  ? "bg-white shadow-md" : "bg-white"}  p-5 md:px-5 shadow-sm border-1 `}> 
            <div  className="relative flex flex-start h-10 cursor-pointer items-center w-20 ">
-               <Image  src="https://raw.githubusercontent.com/sanyagoyal2000/myntra-clone/main/components/images/myntra-1-removebg-preview.png" className="mt-4" layout="fill" objectFit="contain" objectPosition="left"/>
+               <Image  src="https://raw.githubusercontent.com/sanyagoyal2000/myntra-clone/main/components/images/myntra-1-removebg-preview.png" className="mt-5 ml-2" layout="fill" objectFit="contain" objectPosition="left"/>
            </div>
            <div className="ml-0 mt-auto mb-auto ">
                <ul className="flex flex-row space-x-4">
@@ -16,7 +33,7 @@ function Header() {
                    <li className="font-semibold font-mono text-slate-700 cursor-pointer">STUDIO</li>
                </ul>
            </div>
-           <div className="flex items-center md:border-2  px-6 md:shadow-sm">
+           <div className="flex items-center md:border-2 bg-gray-100 px-6 md:shadow-sm">
            <svg xmlns="http://www.w3.org/2000/svg" className="pl-1 h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
   <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
 </svg>

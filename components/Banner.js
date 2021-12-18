@@ -5,7 +5,15 @@ function Banner() {
     return (
         <div className="mt-6 max-w-[1500px]">
         
-  <Carousel>
+  <Carousel 
+  className="mt-6"
+  autoplay
+  infiniteLoop
+  showStatus={false}
+  showIndicators={false}
+  showThumbs={false}
+  interval={3000}
+  >
                 <div>
                 <img src="https://github.com/sanyagoyal2000/myntra-clone/blob/main/components/images/h1.jpg?raw=true" />
                   
