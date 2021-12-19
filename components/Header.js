@@ -51,7 +51,7 @@ function Header() {
   <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-500 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
 </svg>
-<span className={`absolute top-0 right-0 md:right-10 h-4 ${items.length >= 10 ? "w-6" : "w-4"} bg-yellow-400 text-center rounded-full text-black font-bold`}>
+<span className={`absolute ml-1 right-0 md:right-10 h-4 ${items.length >= 10 ? "w-8" : "w-4"} bg-yellow-400 text-center rounded-full text-black font-semibold text-xs`}>
                             {items.length}</span>
                         </div>
 <p className="text-xs font-fira-sans font-semibold">Bag</p>

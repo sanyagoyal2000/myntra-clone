@@ -18,11 +18,10 @@ function Product({id,title,price,category,image}) {
           id,
           title,
           price,
-          description,
           category,
           image,
           rating,
-          hasPrime,
+          isNew,
       }
 
       // Sending the product via an action to the redux store (= basket "slice")
