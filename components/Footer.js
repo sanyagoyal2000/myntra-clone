@@ -3,6 +3,7 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import InstagramIcon from '@material-ui/icons/Instagram';
 function Footer() {
     return (
+        <footer>
         <div className="bg-gray-100 pt-5 pl-15 w-screen ">
             <div className=" grid grid-cols-1 md:grid-cols-3 gap-y-10 max-w-7xl px-32 py-14">
                 <div className="space-y-5 text-sm text-gray-800 font-rubik">
@@ -76,7 +77,7 @@ function Footer() {
                 </div>
             
             
-        </div>
+        </div></footer>
     )
 }
 

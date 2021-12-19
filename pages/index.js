@@ -12,7 +12,7 @@ export default function Home({products}) {
       </Head>
 
       <Header/>
-      <br/><br/><br/><br/>
+      
       <Banner className="mt-6"/>
       <br/><br/><br/><br/>
       <br/><br/><br/><br/>

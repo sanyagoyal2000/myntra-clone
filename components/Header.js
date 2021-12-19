@@ -1,26 +1,19 @@
 import Image from 'next/image'
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
-import React, {useState,useEffect } from 'react';
+import { useSession, signIn, signOut } from "next-auth/client"
+import {useRouter} from "next/dist/client/router";
+import { useSelector } from "react-redux";
+import { selectItems } from "../slices/basketSlice";
 
 function Header() {
-    const [handleShow, setHandleShow] = useState(false);
-    useEffect(() => {
-        const listener = () => {
-           if (window.scrollY > 80) {
-             setHandleShow(true); 
-             } else 
-             setHandleShow(false); 
-           }; 
-           window.addEventListener("scroll", listener);
-           
-           return () => { 
-             window.removeEventListener("scroll", listener); 
-           }; 
-         }, []);
+
+    const [session]=useSession();
+    const router =useRouter();
+    const items = useSelector(selectItems);
+
     return (
-        
-        <header className={`fixed top-0 z-20 bg-white w-screen grid grid-flow-col transition duration-100 ease-out ${handleShow  ? "bg-white shadow-md" : "bg-white"}  p-5 md:px-5 shadow-sm border-1 `}> 
-           <div  className="relative flex flex-start h-10 cursor-pointer items-center w-20 ">
+        <header className="top-0 z-20 bg-white w-screen grid grid-flow-col transition duration-100 ease-out  p-5 md:px-5 shadow-sm border-1 "> 
+           <div  className="relative flex flex-start h-10 cursor-pointer items-center w-20 " onClick={() => router.push("/")}>
                <Image  src="https://raw.githubusercontent.com/sanyagoyal2000/myntra-clone/main/components/images/myntra-1-removebg-preview.png" className="mt-5 ml-2" layout="fill" objectFit="contain" objectPosition="left"/>
            </div>
            <div className="ml-0 mt-auto mb-auto ">
@@ -43,9 +36,9 @@ function Header() {
                
                
 <div className="flex flex-row  items-center space-x-4 p-2 justify-end cursor-pointer mr-5">
-<div className="flex flex-col">
-    <PersonOutlineIcon className="text-gray-500"/>
-    <p className="text-xs font-fira-sans font-semibold">Profile</p>
+<div  onClick={() => router.push("/signin")} className="flex flex-col ">
+{session?.user ? <img src={session?.user?.image} alt={session?.user?.firstname} className="h-7 w-7 cursor-pointer rounded-full"  onClick={() => signOut()}/> :<PersonOutlineIcon className="text-gray-500"/>}
+<p className="text-xs font-fira-sans font-semibold">Profile</p>
   </div>
   <div className="flex flex-col">
   <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-500 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -53,10 +46,14 @@ function Header() {
 </svg>
 <p className="text-xs font-fira-sans font-semibold">Wishlist</p>
 </div>
-<div className="flex flex-col">
+< div className="flex flex-col" onClick={() => router.push("/checkout")}>
+    <div className="flex">
   <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-500 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
 </svg>
+<span className={`absolute top-0 right-0 md:right-10 h-4 ${items.length >= 10 ? "w-6" : "w-4"} bg-yellow-400 text-center rounded-full text-black font-bold`}>
+                            {items.length}</span>
+                        </div>
 <p className="text-xs font-fira-sans font-semibold">Bag</p>
   
 </div>

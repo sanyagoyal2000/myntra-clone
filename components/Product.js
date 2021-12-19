@@ -1,19 +1,39 @@
 import {useState} from "react"
 import {StarIcon} from "@heroicons/react/solid"
+import { useDispatch } from "react-redux";
+import { addToBasket } from "../slices/basketSlice";
+
+
 const MIN_RATING = 1;
 const MAX_RATING = 5;
 function Product({id,title,price,category,image}) {
+  const dispatch = useDispatch();
+
     const [rating] = useState(
         Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1) + MIN_RATING)
     );
     const [isNew] = useState(Math.random() < 0.5);
+    const addItemToBasket=()=> {
+      const product = {
+          id,
+          title,
+          price,
+          description,
+          category,
+          image,
+          rating,
+          hasPrime,
+      }
+
+      // Sending the product via an action to the redux store (= basket "slice")
+      dispatch(addToBasket(product))};
     return (
         <div className=" m-1 z-40 p-5 ">
             
      <div className="card-zoom">    
-    <img src={image} alt=" random img" className="card-zoom-image w-[180px]  object-center rounded-lg shadow-md"/>  </div>   
+    <img src={image} alt=" random img" className="card-zoom-image shadow-md"/>  </div>   
     
- <div className="relative px-4 -mt-16 max-w-sm ">
+ <div className=" relative px-4 -mt-16 max-w-sm ">
    <div className="bg-pink-50 p-6 rounded-lg shadow-lg">
     <div className="flex items-baseline">
     {isNew && <span className="bg-teal-200 text-teal-800 text-xs px-2 inline-block rounded-full  uppercase font-semibold tracking-wide">
@@ -38,7 +58,7 @@ function Product({id,title,price,category,image}) {
                         <StarIcon key={i} className="h-5 text-yellow-500" />
             ))}</span>
             
-    <button className="rounded bg-red-400 uppercase text-white p-2 font-lato text-xs">Add to Cart</button>
+    <button onClick={addItemToBasket} className="rounded bg-red-400 uppercase text-white p-2 font-lato text-xs">Add to Cart</button>
   </div>  
   </div>
  </div>

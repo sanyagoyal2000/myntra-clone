@@ -7,10 +7,10 @@ function Banner() {
         
   <Carousel 
   className="mt-6"
-  autoplay
-  infiniteLoop
+  autoplay={true}
+  infiniteLoop={true}
   showStatus={false}
-  showIndicators={false}
+  
   showThumbs={false}
   interval={3000}
   >
