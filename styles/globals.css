@@ -15,3 +15,15 @@
       .card-zoom:hover .card-zoom-text {
         @apply scale-100;
       }
+
+      @layer components {
+        .link {
+            @apply cursor-pointer hover:underline active:transform active:scale-90 active:no-underline;
+        }
+    
+        
+    
+        .growing-hover {
+            @apply transition-transform duration-300 transform origin-bottom scale-100 hover:scale-105;
+        }
+    }

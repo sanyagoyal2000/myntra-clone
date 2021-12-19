@@ -1,7 +1,10 @@
 import {useState} from "react"
 import {StarIcon} from "@heroicons/react/solid"
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { addToBasket } from "../slices/basketSlice";
+import Currency from "react-currency-formatter";
+
 
 
 const MIN_RATING = 1;
@@ -13,19 +16,41 @@ function Product({id,title,price,category,image}) {
         Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1) + MIN_RATING)
     );
     const [isNew] = useState(Math.random() < 0.5);
-    const addItemToBasket=()=> {
+    function addItemToBasket() {
       const product = {
           id,
           title,
           price,
+          
           category,
           image,
           rating,
           isNew,
-      }
+      };
 
       // Sending the product via an action to the redux store (= basket "slice")
-      dispatch(addToBasket(product))};
+      dispatch(addToBasket(product));
+
+      toast.success(
+          <>
+              <span className="font-bold">Added to basket!</span>
+              <br />
+              {product.title.slice(0, 30)}
+              {product.title.length > 30 ? "…" : ""}
+          </>,
+          {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              draggablePercent: 20,
+              progress: undefined,
+          }
+      );
+  }
+
     return (
         <div className=" m-1 z-40 p-5 ">
             
@@ -46,7 +71,8 @@ function Product({id,title,price,category,image}) {
     <p className="mt-1 text-xl font-semibold font-pt break-words">{title}</p>
  
   <div className="mt-1">
-    Rs.{price*73}
+  <Currency quantity={price*73} currency="INR" />
+
     
   </div>
   <div className="mt-4">

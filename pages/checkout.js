@@ -5,27 +5,53 @@ import Currency from "react-currency-formatter";
 import { useSelector } from "react-redux";
 import { selectItems, selectTotal } from "../slices/basketSlice";
 import { useSession } from "next-auth/client";
+import CheckoutProduct from "../components/CheckoutProduct";
+
 import { groupBy } from "lodash";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+const stripePromise = loadStripe(process.env.stripe_public_key); // Variable d'environnement définie par le fichier next.config.js, pour le front
 
 function Checkout() {
     const items = useSelector(selectItems);
     const total = useSelector(selectTotal);
     const groupedItems = Object.values(groupBy(items, "id"));
     const [session] = useSession();
+    async function createCheckoutSession() {
+        const stripe = await stripePromise;
+
+        // Call the backend to create a checkout session...
+        const checkoutSession = await axios.post(
+            "/api/create-checkout-session",
+            {
+                items,
+                email: session.user.email,
+            }
+        );
+
+        // After have created a session, redirect the user/customer to Stripe Checkout
+        const result = await stripe.redirectToCheckout({
+            sessionId: checkoutSession.data.id,
+        });
+
+        if (result.error) {
+            alert(result.error.message); // @todo : Improve that!
+        }
+    }
+
     return (
         
-         <div className="bg-gray-100">
+         <div>
             <Header />
 
             <main className="lg:flex max-w-screen-2xl mx-auto">
                 {/* Left */}
-                <div className="flex-grow m-5 shadow-sm">
+                <div className="flex-grow m-8 shadow-sm">
                     <Image
-                        src=""
-                        width={1020}
-                        height={250}
+                        src="https://raw.githubusercontent.com/sanyagoyal2000/myntra-clone/main/components/images/b1.jpeg"
+                        width={1100}
+                        height={300}
                         objectFit="contain"
                     />
 
@@ -70,15 +96,15 @@ function Checkout() {
                         <h2 className="whitespace-nowrap">
                             Subtotal ({items.length} items):{" "}
                             <span className="font-bold">
-                                <Currency quantity={total} currency="EUR" />
+                                <Currency quantity={total*73} currency="INR" />
                             </span>
                         </h2>
 
                         <button
                             role="link"
-                            
+                            onClick={createCheckoutSession}
                             disabled={!session}
-                            className={`button mt-2 ${
+                            className={`border mt-2  ${
                                 !session &&
                                 "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed hover:from-gray-300"
                             }`}>
